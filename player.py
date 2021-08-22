@@ -1,11 +1,11 @@
 import pygame
+import animation
 
-
-class Player(pygame.sprite.Sprite):
+class Player(animation.AnimateSprite):
     def __init__(self, x, y):
-        super().__init__()
-        self.sprite_sheet = pygame.image.load('player.png')
-        self.image = self.get_image(0, 0)
+        super().__init__("player")
+        # self.sprite_sheet = pygame.image.load('player.png')
+        # self.image = self.get_image(0, 0)
         self.image.set_colorkey([255, 255, 255])
         self.rect = self.image.get_rect()
         self.position = [x, y]
@@ -23,7 +23,8 @@ class Player(pygame.sprite.Sprite):
 
 
     def change_animation(self, name):
-        self.image = self.images[name]
+        # self.image = self.images[name]
+        self.animate('player',name)
         self.image.set_colorkey([255, 255, 255])
 
     def move_right(self):
@@ -51,7 +52,3 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = self.position
         self.feet.midbottom = self.rect.midbottom
 
-    def get_image(self, X, Y):
-        image = pygame.Surface([32, 32])
-        image.blit(self.sprite_sheet,(0, 0),(X, Y, 32, 32))
-        return image
