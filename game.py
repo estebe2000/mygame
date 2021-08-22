@@ -85,7 +85,7 @@ class Game:
 
         # generer un joueur
         player_position = tmx_data.get_object_by_name(p_position)
-        self.player = Player(player_position.x, player_position.y, "player")
+        self.player = Player(player_position.x, player_position.y, "marioyoshi")
 
         # definir une liste de collisions
         self.walls = []
