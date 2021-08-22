@@ -8,7 +8,7 @@ from player import Player
 class Game:
     def __init__(self):
         # generation fenetre
-        pygame.display.set_caption("Mon jeux")
+        pygame.display.set_caption("Mon moteur de jeux")
         self.screen = pygame.display.set_mode((1080,720))
 
         # definir touche action
