@@ -7,6 +7,15 @@ from player import Player
 
 class Game:
     def __init__(self):
+        pygame.mixer.init()
+        file = 'epic.mp3'
+        pygame.mixer.music.load(file)
+        pygame.mixer.music.set_volume(0.2)
+        pygame.mixer.music.play(-1)  # If the loops is -1 then the music will repeat indefinitely.
+        # definir si le jeux a commencer
+        self.is_menu = True
+
+
         # generation fenetre
         pygame.display.set_caption("Mon moteur de jeux")
         self.screen = pygame.display.set_mode((1080,720))
@@ -21,11 +30,11 @@ class Game:
         tmx_data = pytmx.util_pygame.load_pygame(self.map)
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 3
+        map_layer.zoom = 1
 
         # generer un joueur
         player_position = tmx_data.get_object_by_name(self.spawn)
-        self.player = Player(player_position.x, player_position.y)
+        self.player = Player(player_position.x, player_position.y, self.spawn)
 
         # definir une liste de collisions
         self.walls = []
@@ -38,6 +47,7 @@ class Game:
         self.zone_switch = []
 
         self.switch_map(self.map, self.spawn)
+
 
 
 
@@ -55,6 +65,9 @@ class Game:
         elif pressed[pygame.K_RIGHT]:
             self.player.move_right()
             self.player.change_animation('right')
+        elif pressed[pygame.K_x]:
+            self.is_menu = False
+            print("enter")
         elif pressed[pygame.K_SPACE]:
             self.action = True
         else: self.action = False
@@ -65,11 +78,14 @@ class Game:
         tmx_data = pytmx.util_pygame.load_pygame(map_choice)
         map_data = pyscroll.data.TiledMapData(tmx_data)
         map_layer = pyscroll.orthographic.BufferedRenderer(map_data, self.screen.get_size())
-        map_layer.zoom = 3
+        if map_choice == "titre.tmx":
+            map_layer.zoom = 1.7
+        else:
+            map_layer.zoom = 3
 
         # generer un joueur
         player_position = tmx_data.get_object_by_name(p_position)
-        self.player = Player(player_position.x, player_position.y)
+        self.player = Player(player_position.x, player_position.y, "player")
 
         # definir une liste de collisions
         self.walls = []
@@ -88,6 +104,7 @@ class Game:
         self.group.add(self.player)
 
     def update(self):
+
         self.group.update()
 
         # verification des zone switch
@@ -107,8 +124,6 @@ class Game:
             if sprite.feet.collidelist(self.walls) > -1:
                 sprite.move_back()
 
-
-
     def run(self):
         # Boucle du Jeux
         clock = pygame.time.Clock()
@@ -126,5 +141,5 @@ class Game:
                     running = False
 
             clock.tick(60)
-
+        self.game.run()
         pygame.QUIT()

@@ -2,10 +2,9 @@ import pygame
 import animation
 
 class Player(animation.AnimateSprite):
-    def __init__(self, x, y):
-        super().__init__("player")
-        # self.sprite_sheet = pygame.image.load('player.png')
-        # self.image = self.get_image(0, 0)
+    def __init__(self, x, y, mob_name):
+        super().__init__(mob_name)
+        self.mob = mob_name
         self.image.set_colorkey([255, 255, 255])
         self.rect = self.image.get_rect()
         self.position = [x, y]
@@ -23,8 +22,7 @@ class Player(animation.AnimateSprite):
 
 
     def change_animation(self, name):
-        # self.image = self.images[name]
-        self.animate('player',name)
+        self.animate(self.mob,name)
         self.image.set_colorkey([255, 255, 255])
 
     def move_right(self):

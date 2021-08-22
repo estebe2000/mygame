@@ -29,7 +29,8 @@ class AnimateSprite(pygame.sprite.Sprite):
         # verifier si fin animation
         if self.current_image >= 3:
             self.current_image = 0
-
+            pas = pygame.mixer.Sound('pasp.mp3')
+            pas.play(1)
         # modifier l'image de l'animation
         self.image = self.images[self.current_image]
         # return self.image
